@@ -1,0 +1,21 @@
+# config.yaml
+
+# List the directories where your classes are located
+class_directories:
+  - module1
+  - module2
+  - module3
+
+# Specify the main script or entry point for your project
+main_script: main.py
+
+# Specify the dependencies required for your project
+dependencies:
+  - numpy
+  - pandas
+  - scikit-learn
+
+# Specify any additional configuration parameters for your project
+parameters:
+  param1: value1
+  param2: value2
