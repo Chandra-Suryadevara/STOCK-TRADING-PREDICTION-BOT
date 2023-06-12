@@ -19,16 +19,13 @@ class Data_Extractor:
     def get_data(self):
         return self.Data
 
-    def min_max_scaler(data):
-     min_val = min(data)
-     max_val = max(data)
-    
-     scaled_data = []
-     for value in data:
-        scaled_value = (value - min_val) / (max_val - min_val)
-        scaled_data.append(scaled_value)
-    
-     return scaled_data
+    def min_max_scaler(self):
+     
+     min_val = min([min(row) for row in self.Data])
+     max_val = max([max(row) for row in self.Data])
+     self.scaled_arr = [[(val - min_val) / (max_val - min_val) for val in row] for row in self.Data]
+     return self.scaled_arr
+
 
     def Indincators(self):
         self.Data['RSI'] = ta.rsi(self.Data.Close, length = 15)
