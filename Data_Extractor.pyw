@@ -1,5 +1,6 @@
 import yfinance as yf
 import pandas_ta as ta
+import numpy as np
 
 
 class Data_Extractor:
@@ -26,7 +27,6 @@ class Data_Extractor:
      self.scaled_arr = [[(val - min_val) / (max_val - min_val) for val in row] for row in self.Data]
      return self.scaled_arr
 
-
     def Indincators(self):
         self.Data['RSI'] = ta.rsi(self.Data.Close, length = 15)
         self.Data['EMAF'] = ta.ema(self.Data.Close,length = 20)
@@ -40,4 +40,23 @@ class Data_Extractor:
         self.Data.drop(['Volume', 'Close','Date'],axis = 1,inplace = True)
         return self.min_max_scaler(self.Data)
 
-    
+    def preprocess_data(self):
+      backcandles=30
+      X = []
+
+      for j in range(8):
+        X_column = []
+
+        for i in range(backcandles, self.scaled_arr.shape[0]):
+            X_column.append(self.scaled_arr[i - backcandles:i, j])
+
+        X.append(X_column)
+
+      X = np.moveaxis(X, [0], [2])
+
+      yi = np.array(self.scaled_arr[backcandles:, -1])
+      y = np.reshape(yi, (len(yi), 1))
+
+      X, y = np.array(X), np.array(y)
+
+      return X, y
