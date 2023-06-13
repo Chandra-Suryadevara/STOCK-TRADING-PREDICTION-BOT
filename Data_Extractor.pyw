@@ -2,6 +2,8 @@ import yfinance as yf
 import pandas_ta as ta
 import numpy as np
 
+from sklearn.preprocessing import MinMaxScaler
+
 
 class Data_Extractor:
     
@@ -21,10 +23,8 @@ class Data_Extractor:
         return self.Data
 
     def min_max_scaler(self):
-     
-     min_val = min([min(row) for row in self.Data])
-     max_val = max([max(row) for row in self.Data])
-     self.scaled_arr = [[(val - min_val) / (max_val - min_val) for val in row] for row in self.Data]
+     scale = MinMaxScaler(feature_range=(0,1))
+     self.scaled_arr = scale.fit_transform(self.Data)
      return self.scaled_arr
 
     def Indincators(self):
@@ -38,7 +38,7 @@ class Data_Extractor:
         self.Data.dropna(inplace=True)
         self.Data.reset_index(inplace = True)
         self.Data.drop(['Volume', 'Close','Date'],axis = 1,inplace = True)
-        return self.min_max_scaler(self.Data)
+        return self.min_max_scaler()
 
     def preprocess_data(self):
       backcandles=30
