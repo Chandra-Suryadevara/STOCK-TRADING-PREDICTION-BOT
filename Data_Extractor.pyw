@@ -38,7 +38,7 @@ class Data_Extractor:
         self.Data.dropna(inplace=True)
         self.Data.reset_index(inplace = True)
         self.Data.drop(['Volume', 'Close','Date'],axis = 1,inplace = True)
-        return self.min_max_scaler(self.Data)
+        return self.min_max_scaler()
 
     def preprocess_data(self):
       backcandles=30
