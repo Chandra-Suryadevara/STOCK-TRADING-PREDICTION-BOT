@@ -16,6 +16,10 @@ de.Data_Extractor.preprocess_data(aapl)
 # print(aapl.X)
 # print(aapl.y)
 
+lstm_train = ls.LSTMCLASS(aapl.backcandles)
+
+ls.LSTMCLASS.train(lstm_train, X_train = aapl.X, y_train = aapl.y)
+
 data = de.Data_Extractor.get_data(aapl)
 
 print(data.head(10))

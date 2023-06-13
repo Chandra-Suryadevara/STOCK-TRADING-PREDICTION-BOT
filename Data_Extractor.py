@@ -41,20 +41,20 @@ class Data_Extractor:
         return self.min_max_scaler()
 
     def preprocess_data(self):
-      backcandles=30
+      self.backcandles=50
       self.X = []
 
       for j in range(8):
         X_column = []
 
-        for i in range(backcandles, self.scaled_arr.shape[0]):
-            X_column.append(self.scaled_arr[i - backcandles:i, j])
+        for i in range(self.backcandles, self.scaled_arr.shape[0]):
+            X_column.append(self.scaled_arr[i - self.backcandles:i, j])
 
         self.X.append(X_column)
 
       self.X = np.moveaxis(self.X, [0], [2])
 
-      yi = np.array(self.scaled_arr[backcandles:, -1])
+      yi = np.array(self.scaled_arr[self.backcandles:, -1])
       self.y = np.reshape(yi, (len(yi), 1))
 
       self.X, self.y = np.array(self.X), np.array(self.y)
