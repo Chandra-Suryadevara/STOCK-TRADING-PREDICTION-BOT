@@ -35,8 +35,10 @@ class LSTMCLASS:
 
    
     def train(self, X_train, y_train, batch_size=15, epochs=30, validation_split=0.1):
+        self.X_train = X_train
         self.model.fit(x=X_train, y=y_train, batch_size=batch_size, epochs=epochs, shuffle=True, validation_split=validation_split)
+
+    def predict(self):
+        self.y_pred = self.model.predict(self.X_train)
     
-    def predict():
-        
 

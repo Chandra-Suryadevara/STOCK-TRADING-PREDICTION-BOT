@@ -20,6 +20,14 @@ lstm_train = ls.LSTMCLASS(aapl.backcandles)
 
 ls.LSTMCLASS.train(lstm_train, X_train = aapl.X, y_train = aapl.y)
 
+ls.LSTMCLASS.predict(lstm_train)
+
+pl.figure(figsize=(16,8))
+pl.plot(aapl.y, color = 'black', label = 'Test')
+pl.plot(lstm_train.y_pred, color = 'red', label = 'Prediction')
+pl.legend()
+pl.show()
+
 data = de.Data_Extractor.get_data(aapl)
 
 print(data.head(10))
