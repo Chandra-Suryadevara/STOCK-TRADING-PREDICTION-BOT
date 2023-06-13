@@ -6,6 +6,10 @@ aapl = de.Data_Extractor(stock_name = 'AAPL', startdate = '2012-03-11', enddate 
 
 de.Data_Extractor.Downloader(aapl)
 
+de.Data_Extractor.Indincators(aapl)
+
+de.Data_Extractor.Filter_Data()
+
 data = de.Data_Extractor.get_data(aapl)
 
 print(data.head(10))
