@@ -8,9 +8,13 @@ de.Data_Extractor.Downloader(aapl)
 
 de.Data_Extractor.Indincators(aapl)
 
-de.Data_Extractor.Filter_Data()
+scaled_data = de.Data_Extractor.Filter_Data(aapl)
+
+
 
 data = de.Data_Extractor.get_data(aapl)
+
+
 
 print(data.head(10))
 
