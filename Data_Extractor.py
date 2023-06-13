@@ -41,7 +41,7 @@ class Data_Extractor:
         return self.min_max_scaler()
 
     def preprocess_data(self):
-      self.backcandles=50
+      self.backcandles=10
       self.X = []
 
       for j in range(8):

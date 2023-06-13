@@ -13,8 +13,9 @@ scaled_data = de.Data_Extractor.Filter_Data(aapl)
 
 de.Data_Extractor.preprocess_data(aapl)
 
-# print(aapl.X)
-# print(aapl.y)
+data = de.Data_Extractor.get_data(aapl)
+
+print(data.head(10))
 
 lstm_train = ls.LSTMCLASS(aapl.backcandles)
 
@@ -27,11 +28,3 @@ pl.plot(aapl.y, color = 'black', label = 'Test')
 pl.plot(lstm_train.y_pred, color = 'red', label = 'Prediction')
 pl.legend()
 pl.show()
-
-data = de.Data_Extractor.get_data(aapl)
-
-print(data.head(10))
-
-
-
-

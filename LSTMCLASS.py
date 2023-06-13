@@ -40,5 +40,3 @@ class LSTMCLASS:
 
     def predict(self):
         self.y_pred = self.model.predict(self.X_train)
-    
-
