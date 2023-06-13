@@ -1,4 +1,5 @@
 import Data_Extractor as de
+import LSTMCLASS as ls
 import matplotlib.pyplot as pl
 import pandas as pd
 
@@ -10,12 +11,15 @@ de.Data_Extractor.Indincators(aapl)
 
 scaled_data = de.Data_Extractor.Filter_Data(aapl)
 
+de.Data_Extractor.preprocess_data(aapl)
 
+# print(aapl.X)
+# print(aapl.y)
 
 data = de.Data_Extractor.get_data(aapl)
 
-
-
 print(data.head(10))
+
+
 
 
