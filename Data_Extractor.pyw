@@ -11,7 +11,7 @@ class Data_Extractor:
         self.end = enddate
 
     def Downloader(self):
-        self.Data = yf.download(tickers = self.stock_name, start = self.start,end=self.end)
+        self.Data = yf.download(tickers = self.name, start = self.start,end=self.end)
     
     def update_Dates(self,startdate,enddate):
         self.start=startdate
