@@ -40,3 +40,13 @@ class LSTMCLASS:
 
     def predict(self):
         self.y_pred = self.model.predict(self.X_train)
+        
+        return self.y_pred
+
+    def get_trade_signal(prediction, threshold=0.5):
+     if prediction >= threshold:
+        return 1
+     else:
+        return 0
+
+

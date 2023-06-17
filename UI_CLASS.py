@@ -19,7 +19,14 @@ class UI_CLASS:
         data = de.Data_Extractor.get_data(stock)
         lstm_train = ls.LSTMCLASS(stock.backcandles)
         ls.LSTMCLASS.train(lstm_train, X_train = stock.X, y_train = stock.y)
-        ls.LSTMCLASS.predict(lstm_train)
+        if (ls.LSTMCLASS.get_trade_signal(ls.LSTMCLASS.predict(lstm_train)[-1],0.5)) == 1:
+          self.label1 = customtkinter.CTkLabel(master = self.frame, text = "> BUY THE STOCK", font=("Roboto" , 20, BOLD))
+          self.label1.pack(pady =30, padx = 10)
+          self.root.mainloop()
+        else:
+          self.label2 = customtkinter.CTkLabel(master = self.frame, text = "> SELL THE STOCK", font=("Roboto" , 20, BOLD))
+          self.label2.pack(pady =30, padx = 10)
+          self.root.mainloop()
 
     def UI_MAKER(self):
         customtkinter.set_appearance_mode("dark")
@@ -27,9 +34,11 @@ class UI_CLASS:
         self.root = customtkinter.CTk()
         self.root.geometry("900x600")
         self.frame = customtkinter.CTkFrame(master = self.root)
-        self.frame.pack(pady=20, padx=60, fill="both", expand = True)
+        self.frame.pack(pady=80, padx=60, fill="both", expand = True)
         self.label = customtkinter.CTkLabel(master = self.frame, text = "STOCK PREDICTION BOT", font=("Roboto" , 30, BOLD))
         self.label.pack(pady =16, padx = 10)
+        self.label3 = customtkinter.CTkLabel(master = self.frame, text = "PLEASE ENTER STOCK SYMBOL ", font=("Roboto" , 15, BOLD))
+        self.label3.pack(pady =20, padx = 10)
         self.entry = customtkinter.CTkEntry(master = self.frame, placeholder_text = "STOCK NAME")
         self.entry.pack(pady=12,padx=10)
         self.button = customtkinter.CTkButton(master = self.frame, text = "Predict",command = self.PREDICT)
