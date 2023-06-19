@@ -1,0 +1,6 @@
+yfinance
+customtkinter
+tensorflow
+keras
+numpy
+googlefinance
