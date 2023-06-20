@@ -6,18 +6,14 @@ from sklearn.preprocessing import MinMaxScaler
 # Data Extractor Class
 # Takes a Stock, Start date and End Date.
 
-class Data_Extractor:
+class data_extractor:
     
     def __init__(self,stock_name,startdate,enddate):
         self.name = stock_name
         self.start = startdate
         self.end = enddate
+        self.data = yf.download(tickers = self.name, start = self.start,end=self.end)
 
-    # Download stock data from yfinance
-    def Downloader(self):
-        self.Data = yf.download(tickers = self.name, start = self.start,end=self.end)
-    
-    
     def set_start_date(self, start_date):
         self.start = start_date
 
@@ -25,34 +21,34 @@ class Data_Extractor:
        self.end = end_date
         
     def get_data(self):
-        return self.Data
+        return self.data
 
-
+    
     #Data Scaler using mix max scaling
     def min_max_scaler(self):
      scale = MinMaxScaler(feature_range=(0,1))
-     self.scaled_arr = scale.fit_transform(self.Data)
+     self.scaled_arr = scale.fit_transform(self.data)
      return self.scaled_arr
 
     #Runs Technical indicators on the data provided
-    def Indincators(self):
+    def indicators(self):
         #Relative Strength Index Indicator
-        self.Data['RSI'] = ta.rsi(self.Data.Close, length = 15)
+        self.data['RSI'] = ta.rsi(self.data.Close, length = 15)
         #Exponetial Moving Average Indicator
         
         #Fast Moving Average
-        self.Data['EMAF'] = ta.ema(self.Data.Close,length = 25)
+        self.data['EMAF'] = ta.ema(self.data.Close,length = 25)
         #Medium Moving Average
-        self.Data['EMAM'] = ta.ema(self.Data.Close,length = 110)
+        self.data['EMAM'] = ta.ema(self.data.Close,length = 110)
         #Slow Moving Average
-        self.Data['EMAS'] = ta.ema(self.Data.Close,length = 175)
+        self.data['EMAS'] = ta.ema(self.data.Close,length = 175)
     
     #Drop unwated data columns
-    def Filter_Data(self):
-        self.Data['Next Target Close'] = self.Data['Adj Close'].shift(-1)
-        self.Data.dropna(inplace=True)
-        self.Data.reset_index(inplace = True)
-        self.Data.drop(['Volume', 'Close','Date'],axis = 1,inplace = True)
+    def filter_data(self):
+        self.data['Next Target Close'] = self.data['Adj Close'].shift(-1)
+        self.data.dropna(inplace=True)
+        self.data.reset_index(inplace = True)
+        self.data.drop(['Volume', 'Close','Date'],axis = 1,inplace = True)
         return self.min_max_scaler()
 
     #Prepoccess Data to be sent to the LSTM network.
