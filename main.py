@@ -26,6 +26,7 @@ class root(customtkinter.CTk):
 
     def predict(self):
         # Setup Stock
+        self.update()
         ticker = yf.Ticker(self.entry.get().upper())
         try:
             check = ticker.info
@@ -39,12 +40,13 @@ class root(customtkinter.CTk):
             time.sleep(5)
             self.label5.destroy()
             return
-
         self.label5 = customtkinter.CTkLabel(master=self.frame,
                                              text="Training the prediction on your stock...",
                                              font=("Roboto", 20, BOLD))
         self.label5.pack(pady=30, padx=10)
         self.update()
+
+        self.label1 = customtkinter.CTkLabel(master=self.frame, text="BUY THE STOCK", font=("Roboto", 20, BOLD))
 
         self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', '2022-07-10')
         self.stock.indicators()
@@ -56,11 +58,13 @@ class root(customtkinter.CTk):
 
         if self.model.get_trade_signal(self.model.predict()[-1], 0.5) == 1:
             self.label5.destroy()
+            self.label1.destroy()
             self.label1 = customtkinter.CTkLabel(master=self.frame, text="BUY THE STOCK", font=("Roboto", 20, BOLD))
             self.label1.pack(pady=30, padx=10)
             self.update()
         else:
             self.label5.destroy()
+            self.label1.destroy()
             self.label1 = customtkinter.CTkLabel(master=self.frame, text="SELL THE STOCK", font=("Roboto", 20, BOLD))
             self.label1.pack(pady=30, padx=10)
             self.update()
