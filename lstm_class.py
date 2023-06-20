@@ -42,7 +42,7 @@ class lstm_class:
         
         return self.y_pred
 
-    def get_trade_signal(prediction, threshold=0.5):
+    def get_trade_signal(self, prediction, threshold=0.5):
      if prediction >= threshold:
         return 1
      else:

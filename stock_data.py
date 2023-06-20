@@ -6,12 +6,12 @@ from sklearn.preprocessing import MinMaxScaler
 # Data Extractor Class
 # Takes a Stock, Start date and End Date.
 
-class data_extractor:
+class stock_data:
     
-    def __init__(self,stock_name,startdate,enddate):
+    def __init__(self,stock_name, start_date, end_date):
         self.name = stock_name
-        self.start = startdate
-        self.end = enddate
+        self.start = start_date
+        self.end = end_date
         self.data = yf.download(tickers = self.name, start = self.start,end=self.end)
 
     def set_start_date(self, start_date):
@@ -53,20 +53,20 @@ class data_extractor:
 
     #Prepoccess Data to be sent to the LSTM network.
     def preprocess_data(self):
-      self.backcandles=10
+      self.back_candles = 10
       self.X = []
 
       for j in range(8):
         X_column = []
 
-        for i in range(self.backcandles, self.scaled_arr.shape[0]):
-            X_column.append(self.scaled_arr[i - self.backcandles:i, j])
+        for i in range(self.back_candles, self.scaled_arr.shape[0]):
+            X_column.append(self.scaled_arr[i - self.back_candles:i, j])
 
         self.X.append(X_column)
 
       self.X = np.moveaxis(self.X, [0], [2])
 
-      yi = np.array(self.scaled_arr[self.backcandles:, -1])
+      yi = np.array(self.scaled_arr[self.back_candles:, -1])
       self.y = np.reshape(yi, (len(yi), 1))
 
       self.X, self.y = np.array(self.X), np.array(self.y)
