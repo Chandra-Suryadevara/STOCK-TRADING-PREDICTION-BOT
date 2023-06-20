@@ -65,6 +65,10 @@ class stock_data:
     def indicators(self):
         """
         Runs technical indicators on the stock data.
+        
+        Current indicators:
+        Relative Strength Index
+        Exponential Moving Average (Fast, Medium, and Slow Moving)
 
         Returns:
             None.
