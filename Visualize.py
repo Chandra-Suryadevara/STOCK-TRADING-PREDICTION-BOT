@@ -1,4 +1,4 @@
-import Data_Extractor as de
+import data_extractor as de
 import LSTMCLASS as ls
 from UI_CLASS import UI_CLASS
 import matplotlib.pyplot as pl
