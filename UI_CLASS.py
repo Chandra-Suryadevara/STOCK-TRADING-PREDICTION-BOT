@@ -1,9 +1,9 @@
 from tkinter.font import BOLD
 import customtkinter
 import googlefinance as gf
-import Data_Extractor as de
+import data_extractor as de
 import LSTMCLASS as ls
-import Data_Extractor as de
+import data_extractor as de
 import LSTMCLASS as ls
 import matplotlib.pyplot as pl
 import pandas as pd
@@ -15,17 +15,16 @@ class UI_CLASS:
     def TEST(self):
         
 
-     aapl = de.Data_Extractor(self.entry.get().upper(), startdate = '2012-03-11', enddate = '2022-07-10')
+     aapl = de.data_extractor(self.entry.get().upper(), startdate = '2012-03-11', enddate = '2022-07-10')
 
-     de.Data_Extractor.Downloader(aapl)
 
-     de.Data_Extractor.Indincators(aapl)
+     de.data_extractor.indicators()
 
-     scaled_data = de.Data_Extractor.Filter_Data(aapl)
+     scaled_data = de.data_extractor.Filter_Data()
 
-     de.Data_Extractor.preprocess_data(aapl)
+     de.data_extractor.preprocess_data()
 
-     data = de.Data_Extractor.get_data(aapl)
+     data = de.data_extractor.get_data()
 
      
 
@@ -42,12 +41,13 @@ class UI_CLASS:
      pl.show()
 
     def PREDICT(self):
-        stock = de.Data_Extractor(stock_name = (self.entry.get()).upper(), startdate = '2012-03-11', enddate = '2022-07-10')
-        de.Data_Extractor.Downloader(stock)
-        de.Data_Extractor.Indincators(stock)
-        scaled_data = de.Data_Extractor.Filter_Data(stock)
-        de.Data_Extractor.preprocess_data(stock)
-        data = de.Data_Extractor.get_data(stock)
+        stock = de.data_extractor(stock_name = (self.entry.get()).upper(), startdate = '2012-03-11', enddate = '2022-07-10')
+        
+        de.data_extractor.indicators()
+
+        scaled_data = de.data_extractor.filter_data()
+        de.data_extractor.preprocess_data()
+        data = de.data_extractor.get_data()
         lstm_train = ls.LSTMCLASS(stock.backcandles)
         ls.LSTMCLASS.train(lstm_train, X_train = stock.X, y_train = stock.y)
         if (ls.LSTMCLASS.get_trade_signal(ls.LSTMCLASS.predict(lstm_train)[-1],0.5)) == 1:
