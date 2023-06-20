@@ -1,12 +1,14 @@
+from pickle import NONE
 from tkinter.font import BOLD
 import customtkinter
 import googlefinance as gf
-import data_extractor as de
+import Data_Extractor as de
 import LSTMCLASS as ls
-import data_extractor as de
+import Data_Extractor as de
 import LSTMCLASS as ls
 import matplotlib.pyplot as pl
 import pandas as pd
+import yfinance as yf
 
 
 
@@ -15,16 +17,17 @@ class UI_CLASS:
     def TEST(self):
         
 
-     aapl = de.data_extractor(self.entry.get().upper(), startdate = '2012-03-11', enddate = '2022-07-10')
+     aapl = de.Data_Extractor(self.entry.get().upper(), startdate = '2012-03-11', enddate = '2022-07-10')
 
+     de.Data_Extractor.Downloader(aapl)
 
-     de.data_extractor.indicators()
+     de.Data_Extractor.Indincators(aapl)
 
-     scaled_data = de.data_extractor.Filter_Data()
+     scaled_data = de.Data_Extractor.Filter_Data(aapl)
 
-     de.data_extractor.preprocess_data()
+     de.Data_Extractor.preprocess_data(aapl)
 
-     data = de.data_extractor.get_data()
+     data = de.Data_Extractor.get_data(aapl)
 
      
 
@@ -41,23 +44,35 @@ class UI_CLASS:
      pl.show()
 
     def PREDICT(self):
-        stock = de.data_extractor(stock_name = (self.entry.get()).upper(), startdate = '2012-03-11', enddate = '2022-07-10')
-        
-        de.data_extractor.indicators()
-
-        scaled_data = de.data_extractor.filter_data()
-        de.data_extractor.preprocess_data()
-        data = de.data_extractor.get_data()
-        lstm_train = ls.LSTMCLASS(stock.backcandles)
-        ls.LSTMCLASS.train(lstm_train, X_train = stock.X, y_train = stock.y)
-        if (ls.LSTMCLASS.get_trade_signal(ls.LSTMCLASS.predict(lstm_train)[-1],0.5)) == 1:
-          self.label1 = customtkinter.CTkLabel(master = self.frame, text = "> BUY THE STOCK", font=("Roboto" , 20, BOLD))
-          self.label1.pack(pady =30, padx = 10)
-          self.root.mainloop()
-        else:
-          self.label2 = customtkinter.CTkLabel(master = self.frame, text = "> SELL THE STOCK", font=("Roboto" , 20, BOLD))
-          self.label2.pack(pady =30, padx = 10)
-          self.root.mainloop()
+         test = None
+         stock = de.Data_Extractor(stock_name = (self.entry.get()).upper(), startdate = '2012-03-11', enddate = '2022-07-10')
+         de.Data_Extractor.Downloader(stock)
+         de.Data_Extractor.Indincators(stock)
+         try:
+          scaled_data = de.Data_Extractor.Filter_Data(stock)
+         except Exception as e:
+             test = False
+         if test is not False:
+          self.label5.configure(text="Downloading Data")
+          self.root.update()
+          de.Data_Extractor.preprocess_data(stock)
+          data = de.Data_Extractor.get_data(stock)
+          lstm_train = ls.LSTMCLASS(stock.backcandles)
+          ls.LSTMCLASS.train(lstm_train, X_train = stock.X, y_train = stock.y)
+          if (ls.LSTMCLASS.get_trade_signal(ls.LSTMCLASS.predict(lstm_train)[-1],0.5)) == 1:
+           self.label5.destroy()
+           self.label1 = customtkinter.CTkLabel(master = self.frame, text = "BUY THE STOCK", font=("Roboto" , 20, BOLD))
+           self.label1.pack(pady =30, padx = 10)
+           self.root.update()
+          else:
+           self.label5.destroy()
+           self.label1 = customtkinter.CTkLabel(master = self.frame, text = "SELL THE STOCK", font=("Roboto" , 20, BOLD))
+           self.label1.pack(pady =30, padx = 10)
+           self.root.update()
+         else:
+           self.label5 = customtkinter.CTkLabel(master = self.frame, text = "Please Enter Currect Stock Symbol", font=("Roboto" , 20, BOLD))
+           self.label5.pack(pady =30, padx = 10)
+           self.root.update()
 
     def UI_MAKER(self):
         customtkinter.set_appearance_mode("dark")
