@@ -3,12 +3,43 @@ import customtkinter
 import googlefinance as gf
 import Data_Extractor as de
 import LSTMCLASS as ls
+import Data_Extractor as de
+import LSTMCLASS as ls
+import matplotlib.pyplot as pl
+import pandas as pd
 
 
 
 class UI_CLASS:
     
-    
+    def TEST(self):
+        
+
+     aapl = de.Data_Extractor(self.entry.get().upper(), startdate = '2012-03-11', enddate = '2022-07-10')
+
+     de.Data_Extractor.Downloader(aapl)
+
+     de.Data_Extractor.Indincators(aapl)
+
+     scaled_data = de.Data_Extractor.Filter_Data(aapl)
+
+     de.Data_Extractor.preprocess_data(aapl)
+
+     data = de.Data_Extractor.get_data(aapl)
+
+     
+
+     lstm_train = ls.LSTMCLASS(aapl.backcandles)
+
+     ls.LSTMCLASS.train(lstm_train, X_train = aapl.X, y_train = aapl.y)
+
+     ls.LSTMCLASS.predict(lstm_train)
+
+     pl.figure(figsize=(16,8))
+     pl.plot(aapl.y, color = 'black', label = 'Test')
+     pl.plot(lstm_train.y_pred, color = 'red', label = 'Prediction')
+     pl.legend()
+     pl.show()
 
     def PREDICT(self):
         stock = de.Data_Extractor(stock_name = (self.entry.get()).upper(), startdate = '2012-03-11', enddate = '2022-07-10')
@@ -42,7 +73,9 @@ class UI_CLASS:
         self.entry = customtkinter.CTkEntry(master = self.frame, placeholder_text = "STOCK NAME")
         self.entry.pack(pady=12,padx=10)
         self.button = customtkinter.CTkButton(master = self.frame, text = "Predict",command = self.PREDICT)
-        self.button.pack(pady =12, padx = 10)
+        self.button.pack(pady =12, padx = 8)
+        self.button2 = customtkinter.CTkButton(master = self.frame, text = "See Accuracy",command = self.TEST)
+        self.button2.pack(pady =12, padx = 14)
         self.root.mainloop()
 
     def __init__(self):
