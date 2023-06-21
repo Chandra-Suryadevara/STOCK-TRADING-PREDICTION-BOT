@@ -37,23 +37,23 @@ Enter a stock into the text field.
 
 1. Input Stock name into text field.
 
-![Untitled](/readmelib/Untitled.png)
+![Untitled](./readmelib/Untitled.png)
 
 1. Click Predict to get stock advice
 
-![Untitled](/readmelib/Untitled%201.png)
+![Untitled](./readmelib/Untitled%201.png)
 
 1. Get your prediction
 
-![Untitled](/readmelib/Untitled%202.png)
+![Untitled](./readmelib/Untitled%202.png)
 
 1. Check Accuracy by pressing See accuracy.
 This outputs a matplotlib graph with the prediction and the stocks real data.
 
-![Untitled](/readmelib/Untitled%203.png)
+![Untitled](./readmelib/Untitled%203.png)
 
 zoomed in
 
-![Untitled](readmelib/Untitled%204.png)
+![Untitled](./readmelib/Untitled%204.png)
 
 1. Feel free to repeat as many times as you’d like with different stocks.
