@@ -39,15 +39,15 @@ Enter a stock into the text field.
 
 ![Untitled](./readmelib/Untitled.png)
 
-1. Click Predict to get stock advice
+2. Click Predict to get stock advice
 
 ![Untitled](./readmelib/Untitled%201.png)
 
-1. Get your prediction
+3. Get your prediction
 
 ![Untitled](./readmelib/Untitled%202.png)
 
-1. Check Accuracy by pressing See accuracy.
+4. Check Accuracy by pressing See accuracy.
 This outputs a matplotlib graph with the prediction and the stocks real data.
 
 ![Untitled](./readmelib/Untitled%203.png)
@@ -56,4 +56,4 @@ zoomed in
 
 ![Untitled](./readmelib/Untitled%204.png)
 
-1. Feel free to repeat as many times as you’d like with different stocks.
+5 . Feel free to repeat as many times as you’d like with different stocks.
