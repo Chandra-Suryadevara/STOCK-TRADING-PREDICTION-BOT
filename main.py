@@ -5,6 +5,7 @@ import lstm_class as ls
 import matplotlib.pyplot as pl
 import yfinance as yf
 import time
+from datetime import date
 
 class root(customtkinter.CTk):
     def __init__(self):
@@ -37,7 +38,7 @@ class root(customtkinter.CTk):
             return
         
         # Setup Stock
-        self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', '2022-07-10')
+        self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', date.today())
         self.stock.indicators()
         #Check if stock has data for time-frame.
         try:
