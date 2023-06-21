@@ -3,7 +3,7 @@ customtkinter
 tensorflow
 keras
 numpy
-googlefinance
 pandas_ta
 scikit-learn
 matplotlib
+unittest
