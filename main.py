@@ -27,22 +27,17 @@ class root(customtkinter.CTk):
                                                  font=("Roboto", 20, BOLD))
         self.label5.pack(pady=30, padx=10)
 
-    def predict(self):
+    def predict(self):        
         # Setup Stock
         ticker = yf.Ticker(self.entry.get().upper())
         try:
             check = ticker.info
         except Exception as e:
             self.label5.configure(text = "Please enter the correct Stock Ticker.")
-            
-  
-            # sleep for 5 seconds
-            time.sleep(5)
             return
-
-
+        
         self.label5.configure(text = "Training the prediction on your stock...")
-    
+        self.update()
         self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', '2022-07-10')
         self.stock.indicators()
         self.stock.filter_data()
@@ -63,6 +58,7 @@ class root(customtkinter.CTk):
             try_predict = self.model
         except Exception as e:
             self.label5.configure(text = "Please predict before visualizing")
+            self.update()
             time.sleep(5)
             self.label5.configure(text = "")
             return
@@ -74,7 +70,10 @@ class root(customtkinter.CTk):
         pl.show()
 
 if __name__ == '__main__':
+    #Set theme of tkinter
     customtkinter.set_appearance_mode("dark")
     customtkinter.set_default_color_theme("dark-blue")
+
+    #Start application
     root = root()
     root.mainloop()
