@@ -28,7 +28,7 @@ class root(customtkinter.CTk):
         self.label5.pack(pady=30, padx=10)
 
     def predict(self):        
-        # Setup Stock
+        #Check if stock ticker exists
         ticker = yf.Ticker(self.entry.get().upper())
         try:
             check = ticker.info
@@ -36,14 +36,20 @@ class root(customtkinter.CTk):
             self.label5.configure(text = "Please enter the correct Stock Ticker.")
             return
         
-        self.label5.configure(text = "Training the prediction on your stock...")
-        self.update()
+        # Setup Stock
         self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', '2022-07-10')
         self.stock.indicators()
-        self.stock.filter_data()
+        #Check if stock has data for time-frame.
+        try:
+          self.stock.filter_data()
+        except Exception as e:
+          self.label5.configure(text = "No price data found, symbol may be delisted")
+          return 
+        
         self.stock.preprocess_data()
-
         self.model = ls.lstm_class(self.stock.back_candles)
+        self.label5.configure(text = "Training the prediction on your stock...")
+        self.update()
         self.model.train(self.stock.X, self.stock.y)
         
 
