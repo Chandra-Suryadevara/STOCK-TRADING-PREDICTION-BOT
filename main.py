@@ -22,32 +22,27 @@ class root(customtkinter.CTk):
         self.button.pack(pady=12, padx=8)
         self.button2 = customtkinter.CTkButton(master=self.frame, text="See Accuracy", command=self.visualize)
         self.button2.pack(pady=12, padx=14)
-        self.mainloop()
+        self.label5 = customtkinter.CTkLabel(master=self.frame,
+                                                 text="",
+                                                 font=("Roboto", 20, BOLD))
+        self.label5.pack(pady=30, padx=10)
 
     def predict(self):
         # Setup Stock
-        self.update()
         ticker = yf.Ticker(self.entry.get().upper())
         try:
             check = ticker.info
         except Exception as e:
-            self.label5 = customtkinter.CTkLabel(master=self.frame,
-                                                 text="Please Enter the Correct Stock Ticker",
-                                                 font=("Roboto", 20, BOLD))
-            self.label5.pack(pady=30, padx=10)
-            self.update()
+            self.label5.configure(text = "Please enter the correct Stock Ticker.")
+            
+  
             # sleep for 5 seconds
             time.sleep(5)
-            self.label5.destroy()
             return
-        self.label5 = customtkinter.CTkLabel(master=self.frame,
-                                             text="Training the prediction on your stock...",
-                                             font=("Roboto", 20, BOLD))
-        self.label5.pack(pady=30, padx=10)
-        self.update()
 
-        self.label1 = customtkinter.CTkLabel(master=self.frame, text="BUY THE STOCK", font=("Roboto", 20, BOLD))
 
+        self.label5.configure(text = "Training the prediction on your stock...")
+    
         self.stock = sd.stock_data(self.entry.get().upper(), '2012-03-11', '2022-07-10')
         self.stock.indicators()
         self.stock.filter_data()
@@ -55,32 +50,21 @@ class root(customtkinter.CTk):
 
         self.model = ls.lstm_class(self.stock.back_candles)
         self.model.train(self.stock.X, self.stock.y)
+        
 
         if self.model.get_trade_signal(self.model.predict()[-1], 0.5) == 1:
-            self.label5.destroy()
-            self.label1.destroy()
-            self.label1 = customtkinter.CTkLabel(master=self.frame, text="BUY THE STOCK", font=("Roboto", 20, BOLD))
-            self.label1.pack(pady=30, padx=10)
-            self.update()
+            self.label5.configure(text = "BUY THE STOCK")
         else:
-            self.label5.destroy()
-            self.label1.destroy()
-            self.label1 = customtkinter.CTkLabel(master=self.frame, text="SELL THE STOCK", font=("Roboto", 20, BOLD))
-            self.label1.pack(pady=30, padx=10)
-            self.update()
+            self.label5.configure(text = "SELL THE STOCK")
 
     def visualize(self):
         # checks if prediction has been made.
         try:
             try_predict = self.model
         except Exception as e:
-            self.label1 = customtkinter.CTkLabel(master=self.frame,
-                                                 text="Please predict before visualizing.",
-                                                 font=("Roboto", 20, BOLD))
-            self.label1.pack(pady=30, padx=10)
-            self.update()
+            self.label5.configure(text = "Please predict before visualizing")
             time.sleep(5)
-            self.label1.destroy()
+            self.label5.configure(text = "")
             return
         # plot data
         pl.figure(figsize=(16, 8))
